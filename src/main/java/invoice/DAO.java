@@ -102,7 +102,7 @@ public class DAO {
                                 stmt2.setInt(2, i);
                                 stmt2.setInt(3, productIDs[i]);
                                 stmt2.setInt(4, quantities[i]);
-                                stmt2.setFloat(5, price*quantities[i]);
+                                stmt2.setFloat(5, price);
                                 stmt2.executeUpdate();
                             }
                         }
