@@ -93,7 +93,18 @@ public class TransactionTest {
 
 		assertEquals(before + 2f * 10f, after, 0.001f);		
 	}
-	
+	@Test(expected = Exception.class)
+        public void canNotCreateInvoiceWithUnkownProduct() throws Exception {
+            	int id = myCustomer.getCustomerId();
+		
+		// Un tableau de 1 productID
+		int[] productIds = new int[]{-1};
+		// Un tableau de 1 quantites
+		int[] quantities = new int[]{10};
+		// On exécute la transaction
+		myDAO.createInvoice(myCustomer, productIds, quantities);   
+                
+        }
 
 	
 	public static DataSource getDataSource() throws SQLException {

@@ -83,20 +83,21 @@ public class DAO {
                 String sql3 = "SELECT Price from Product WHERE PRODUCT.ID=?";
                 try (Connection connection = myDataSource.getConnection();
 			PreparedStatement stmt = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-                        PreparedStatement stmt2 = connection.prepareStatement(sql2,Statement.RETURN_GENERATED_KEYS);
+                        PreparedStatement stmt2 = connection.prepareStatement(sql2);
                         PreparedStatement stmt3 = connection.prepareStatement(sql3))
                         
                 {
                         stmt.setInt(1,customer.getCustomerId());
                         stmt.executeUpdate();
                         
-                        ResultSet invoiceID = stmt.getGeneratedKeys();
+                        ResultSet invoiceID = stmt.getGeneratedKeys();                        
                         invoiceID.next();
                        
                         for (int i=0 ; i < productIDs.length; i++) {
                             stmt3.setInt(1,productIDs[i]);
                             ResultSet rs = stmt3.executeQuery();
-                            if (rs.next()){
+                            
+                            if(rs.next()){
                                 float price = rs.getFloat("Price");
                                 stmt2.setInt(1, invoiceID.getInt(1));
                                 stmt2.setInt(2, i);
@@ -104,13 +105,15 @@ public class DAO {
                                 stmt2.setInt(4, quantities[i]);
                                 stmt2.setFloat(5, price);
                                 stmt2.executeUpdate();
+                                
                             }
-                        }
-                          
+                            else
+                                throw new Exception();
                             
-                        
-                        
+                        }
+                                                                
                 }
+                
         }
 
 	/**
