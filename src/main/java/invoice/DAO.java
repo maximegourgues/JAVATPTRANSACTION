@@ -95,20 +95,18 @@ public class DAO {
                        
                         for (int i=0 ; i < productIDs.length; i++) {
                             stmt3.setInt(1,productIDs[i]);
-                            ResultSet rs = stmt3.executeQuery();
+                           try(ResultSet rs = stmt3.executeQuery()){
                             
-                            if(rs.next()){
-                                float price = rs.getFloat("Price");
-                                stmt2.setInt(1, invoiceID.getInt(1));
-                                stmt2.setInt(2, i);
-                                stmt2.setInt(3, productIDs[i]);
-                                stmt2.setInt(4, quantities[i]);
-                                stmt2.setFloat(5, price);
-                                stmt2.executeUpdate();
+                                    rs.next();
+                                    float price = rs.getFloat("Price");
+                                    stmt2.setInt(1, invoiceID.getInt(1));
+                                    stmt2.setInt(2, i);
+                                    stmt2.setInt(3, productIDs[i]);
+                                    stmt2.setInt(4, quantities[i]);
+                                    stmt2.setFloat(5, price);
+                                    stmt2.executeUpdate();        
                                 
                             }
-                            else
-                                throw new Exception();
                             
                         }
                                                                 
