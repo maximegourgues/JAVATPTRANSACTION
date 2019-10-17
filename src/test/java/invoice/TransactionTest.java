@@ -95,8 +95,6 @@ public class TransactionTest {
 	}
 	@Test(expected = Exception.class)
         public void canNotCreateInvoiceWithUnkownProduct() throws Exception {
-            	int id = myCustomer.getCustomerId();
-		
 		// Un tableau de 1 productID
 		int[] productIds = new int[]{-1};
 		// Un tableau de 1 quantites
@@ -104,6 +102,12 @@ public class TransactionTest {
 		// On exécute la transaction
 		myDAO.createInvoice(myCustomer, productIds, quantities);   
                 
+        }
+        @Test(expected = Exception.class)
+        public void canNotCreateInvoiceWithNegativeQuantity() throws Exception {
+            int[] productIds = new int[]{1};
+            int[] quantities = new int[]{-3};
+            myDAO.createInvoice(myCustomer,productIds,quantities);
         }
 
 	
